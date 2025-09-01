@@ -1,7 +1,7 @@
-# Reinforcement Learning demo
+# 1.  Reinforcement Learning demo
 
 
-# Deep RL Course
+# 2.  Deep RL Course
 ## UNIT1. INTRODUCTION TO REINFORCEMENT LEARNING
 
 ## BONUS UNIT1. INTRODUCTION TO DEEP REINFORCEMENT LEARNING WITH HUGGY
