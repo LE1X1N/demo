@@ -1,4 +1,5 @@
 import gymnasium as gym
+import numpy as np
 
 from q_learning import initialize_q_table, train, evaluate_agent
 
@@ -44,7 +45,9 @@ def run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed,
     Qtable_frozenlake = initialize_q_table(state_space, action_space)
 
     # training the Q-table 
-    Qtable_frozenlake = train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable_frozenlake, learning_rate, gamma)
+    # train from scratch or load from checkpoint
+    # Qtable_frozenlake = train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable_frozenlake, learning_rate, gamma)
+    Qtable_frozenlake = np.load("src/unit2/Qtable_frozenlake.npy")
 
     # evaluation
     mean_reward, std_reward = evaluate_agent(env, max_steps, n_eval_episodes, Qtable_frozenlake, eval_seed)
