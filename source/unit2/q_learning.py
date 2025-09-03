@@ -39,7 +39,9 @@ print("\n_____ACTION SPACE_____")
 print("Action Space Shape", env.action_space.n)
 print("Action Space Sample", env.action_space.sample())
 
-# initialzie q-table
+"""
+    initialzie q-table
+"""
 def initialize_q_table(state_space, action_space):
     Qtable = np.zeros((state_space, action_space))
     return Qtable
@@ -50,3 +52,25 @@ print(f"There are {state_space} possible states")
 print(f"There are {action_space} possible actions")
 
 Qtable_frozenlake = initialize_q_table(state_space, action_space)
+
+"""
+Greedy policy
+  - Epsilon-greedy policy (action policy)
+  - Greedy-policy (updating policy)
+"""
+def greedy_policy(Qtable, state):
+    action = np.argmax(Qtable[state])
+    return action
+
+def epsilon_greedy_policy(Qtable, state, epsilon):
+    random_num = np.random.rand(1)
+    if random_num < epsilon:
+        # random
+        action = np.random.choice(Qtable.shape[1])
+    else:
+        # greedy
+        action = np.argmax(Qtable[state])
+    return action
+
+for _ in range(100):
+    print(epsilon_greedy_policy(np.array([[0.1, 0.3, 0.4, 0.2]]), 0, 0.1))
