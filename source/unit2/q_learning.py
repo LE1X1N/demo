@@ -11,7 +11,7 @@ import os
 import tqdm
 
 # import pickle5 as pickle  # not support for python >= 3.8
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 """
 Frozen Lake
@@ -89,7 +89,41 @@ gamma = 0.95
 eval_seed = []
 
 # exploration parameters
-max_episilon = 1.0
-min_episilon = 0.05
+max_epsilon = 1.0
+min_epsilon = 0.05
 decay_rate = 0.0005
 
+"""
+    Training Loop
+"""
+def train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable):
+    
+    epsilon = max_epsilon
+
+    for episode in tqdm(range(n_training_episodes)):
+        epsilon = max(min_epsilon, epsilon * (1 - decay_rate))  # decay epsilon
+        state, info = env.reset()
+        terminated = False
+        truncated = False
+
+        for step in range(max_steps):
+            # updating policy
+            action = epsilon_greedy_policy(Qtable, state, epsilon)
+            # observe R_t+1, S_t+1
+            new_state, reward, terminated, truncated, info = env.step(action)
+            
+            # IMPORTANT!!! update Q-table
+            # Q(S_t, A_t) <- Q(S_t, A_t) + \alpha (R_t+1 + \gemma * max_a(Q_t+1, a) - Q(S_t, A_t))
+            Qtable[state][action] = Qtable[state][action] + learning_rate * (reward + gamma * np.max(Qtable[new_state]) - Qtable[state][action])
+
+            # terminated
+            if terminated:
+                break
+            state = new_state
+    
+    return Qtable
+
+# training the Q-table 
+Qtable_frozenlake = train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable_frozenlake)
+
+print(1)
