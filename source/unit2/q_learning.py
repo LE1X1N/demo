@@ -31,6 +31,10 @@ Frozen Lake
 # create a FrozenLake-v1 environment  
 env = gym.make('FrozenLake-v1', desc=None, map_name="4x4", is_slippery=False, render_mode="rgb_array")
 
-print("_____OBSERVATION SPACE______\n")
+print("\n_____OBSERVATION SPACE______")
 print("Observation Space", env.observation_space)
 print("Sample observation", env.observation_space.sample())
+
+print("\n_____ACTION SPACE_____")
+print("Action Space Shape", env.action_space.n)
+print("Action Space Sample", env.action_space.sample())
