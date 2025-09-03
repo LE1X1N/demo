@@ -54,9 +54,9 @@ print(f"There are {action_space} possible actions")
 Qtable_frozenlake = initialize_q_table(state_space, action_space)
 
 """
-Greedy policy
-  - Epsilon-greedy policy (action policy)
-  - Greedy-policy (updating policy)
+    Greedy policy
+    - Epsilon-greedy policy (action policy)
+    - Greedy-policy (updating policy)
 """
 def greedy_policy(Qtable, state):
     action = np.argmax(Qtable[state])
@@ -72,5 +72,24 @@ def epsilon_greedy_policy(Qtable, state, epsilon):
         action = np.argmax(Qtable[state])
     return action
 
-for _ in range(100):
-    print(epsilon_greedy_policy(np.array([[0.1, 0.3, 0.4, 0.2]]), 0, 0.1))
+"""
+    Hyper-parameters
+"""
+# training parameters
+n_training_episodes = 10000
+learning_rate = 0.7
+
+# evaluation parameters
+n_eval_episodes = 100
+
+# environment parameters
+env_id = "FrozenLake-v1"
+max_steps = 99
+gamma = 0.95
+eval_seed = []
+
+# exploration parameters
+max_episilon = 1.0
+min_episilon = 0.05
+decay_rate = 0.0005
+
