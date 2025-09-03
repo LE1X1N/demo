@@ -38,3 +38,15 @@ print("Sample observation", env.observation_space.sample())
 print("\n_____ACTION SPACE_____")
 print("Action Space Shape", env.action_space.n)
 print("Action Space Sample", env.action_space.sample())
+
+# initialzie q-table
+def initialize_q_table(state_space, action_space):
+    Qtable = np.zeros((state_space, action_space))
+    return Qtable
+
+state_space = env.observation_space.n
+action_space = env.action_space.n
+print(f"There are {state_space} possible states")
+print(f"There are {action_space} possible actions")
+
+Qtable_frozenlake = initialize_q_table(state_space, action_space)
