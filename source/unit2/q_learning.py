@@ -10,5 +10,5 @@ import imageio
 import os
 import tqdm
 
-import pickle5 as pickle
+# import pickle5 as pickle  # not support for python >= 3.8
 from tqdm.notebook import tqdm
