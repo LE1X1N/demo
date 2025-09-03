@@ -2,7 +2,7 @@ import gymnasium as gym
 import numpy as np
 
 from q_learning import initialize_q_table, train, evaluate_agent
-
+from upload_hf import push_to_hub
 
 def run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate):
     """
@@ -57,7 +57,6 @@ def run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed,
 
 
 if __name__ == "__main__":
-
     """
         Hyper-parameters
     """
@@ -79,4 +78,25 @@ if __name__ == "__main__":
     min_epsilon = 0.05
     decay_rate = 0.0005
 
-    run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate)
+    # train the model and get the q-table
+    Qtable_frozenlake, env = run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate)
+
+    model = {
+        "env_id": env_id,
+        "max_steps": max_steps,
+        "n_training_episodes": n_training_episodes,
+        "n_eval_episodes": n_eval_episodes,
+        "eval_seed": eval_seed,
+        "learning_rate": learning_rate,
+        "gamma": gamma,
+        "max_epsilon": max_epsilon,
+        "min_epsilon": min_epsilon,
+        "decay_rate": decay_rate,
+        "qtable": Qtable_frozenlake,
+    }
+
+    # upload to hf
+    username="LE1X1N"
+    repo_name =  "q-FrozenLake-v1-4x4-noSlippery"
+    push_to_hub(repo_id=f"{username}/{repo_name}", model=model, env=env, env_id=env_id)
+    

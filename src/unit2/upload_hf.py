@@ -4,13 +4,12 @@ import json
 import numpy as np
 import random
 import imageio
-import os
 import pickle
 
 from huggingface_hub import HfApi, snapshot_download
 from huggingface_hub.repocard import metadata_eval_result, metadata_save
 
-from src.unit2.frozenlake_v1 import run_demo, evaluate_agent
+from q_learning import evaluate_agent
 
 def record_video(env, Qtable, out_directory, fps=1):
     """
@@ -160,49 +159,4 @@ def push_to_hub(repo_id, model, env, video_fps=1, local_repo_path="hub", env_id=
     )
 
     print("Your model is pushed to the Hub. You can view your model here: ", repo_url)
-
-
-if __name__ == "__main__":
-    """
-        Hyper-parameters
-    """
-    # training parameters
-    n_training_episodes = 10000
-    learning_rate = 0.7
-
-    # evaluation parameters
-    n_eval_episodes = 100
-
-    # environment parameters
-    env_id = "FrozenLake-v1"
-    max_steps = 99
-    gamma = 0.95
-    eval_seed = []
-
-    # exploration parameters
-    max_epsilon = 1.0
-    min_epsilon = 0.05
-    decay_rate = 0.0005
-
-    # train the model and get the q-table
-    Qtable_frozenlake, env = run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate)
-
-    model = {
-        "env_id": env_id,
-        "max_steps": max_steps,
-        "n_training_episodes": n_training_episodes,
-        "n_eval_episodes": n_eval_episodes,
-        "eval_seed": eval_seed,
-        "learning_rate": learning_rate,
-        "gamma": gamma,
-        "max_epsilon": max_epsilon,
-        "min_epsilon": min_epsilon,
-        "decay_rate": decay_rate,
-        "qtable": Qtable_frozenlake,
-    }
-
-    # upload to hf
-    username="LE1X1N"
-    repo_name =  "q-FrozenLake-v1-4x4-noSlippery"
-    push_to_hub(repo_id=f"{username}/{repo_name}", model=model, env=env, env_id=env_id)
     
