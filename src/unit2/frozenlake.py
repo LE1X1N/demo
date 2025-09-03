@@ -1,8 +1,9 @@
 import gymnasium as gym
 
-from src.unit2.q_learning import initialize_q_table, train, evaluate_agent
+from q_learning import initialize_q_table, train, evaluate_agent
 
-def run_demo():
+
+def run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate):
     """
     Frozen Lake
         Navigate from starting state (S) to the goal state (G) by walking on the frozen tiles (F) 
@@ -42,6 +43,17 @@ def run_demo():
 
     Qtable_frozenlake = initialize_q_table(state_space, action_space)
 
+    # training the Q-table 
+    Qtable_frozenlake = train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable_frozenlake, learning_rate, gamma)
+
+    # evaluation
+    mean_reward, std_reward = evaluate_agent(env, max_steps, n_eval_episodes, Qtable_frozenlake, eval_seed)
+    print(f"Mean reward={mean_reward} +/- {std_reward}")
+    
+    return Qtable_frozenlake, env
+
+
+if __name__ == "__main__":
 
     """
         Hyper-parameters
@@ -64,15 +76,4 @@ def run_demo():
     min_epsilon = 0.05
     decay_rate = 0.0005
 
-
-    # training the Q-table 
-    Qtable_frozenlake = train(n_training_episodes, min_epsilon, max_epsilon, decay_rate, env, max_steps, Qtable_frozenlake, learning_rate, gamma)
-
-    # evaluation
-    mean_reward, std_reward = evaluate_agent(env, max_steps, n_eval_episodes, Qtable_frozenlake, eval_seed)
-    print(f"Mean reward={mean_reward} +/- {std_reward}")
-
-
-if __name__ == "__main__":
-    print(1)
-    run_demo()
+    run_demo(env_id, max_steps, n_training_episodes, n_eval_episodes, eval_seed, learning_rate, gamma, max_epsilon, min_epsilon, decay_rate)
