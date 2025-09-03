@@ -10,7 +10,7 @@ import pickle
 from huggingface_hub import HfApi, snapshot_download
 from huggingface_hub.repocard import metadata_eval_result, metadata_save
 
-from frozenlake import run_demo, evaluate_agent
+from src.unit2.frozenlake_v1 import run_demo, evaluate_agent
 
 def record_video(env, Qtable, out_directory, fps=1):
     """
