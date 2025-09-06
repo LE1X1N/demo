@@ -64,3 +64,23 @@ A3: right engine
 print("\n_____ACTION SPACE____")
 print("Action Space Shape", env.action_space.n)  # 4
 print("Action Space Sample", env.action_space.sample())
+
+"""
+PPO
+
+Proximal Policy Optimization
+"""
+# stacking multiple environments
+env = make_vec_env('LunarLander-v3', n_envs=16)
+
+model = PPO("MlpPolicy", env, n_steps=1024, batch_size=64, n_epochs=4, gamma=0.999, ent_coef=0.01, verbose=1)   
+model_name = "ppo-LunarLander-v3"
+
+# train
+# model.learn(total_timesteps=100000) 
+
+# save 
+# model.save(f"src/unit1/ckpt/{model_name}")
+
+# load
+model = PPO.load(f"src/unit1/ckpt/{model_name}")
