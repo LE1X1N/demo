@@ -33,3 +33,34 @@ for _ in range(20):
         observation, info = env.reset()
     
 env.close()
+
+
+"""
+    Observation Space S
+    
+    x-coor
+    y-coor
+    x-speed
+    y-speed
+    angle
+    angle-speed
+    left-flag
+    right-flag
+"""
+env.reset()
+print("_____OBSERVATION SPACE_____")
+print("Observation Space Shape ", env.observation_space.shape) # (8, )
+print("Observation Space type ", type(env.observation_space)) # <class 'gymnasium.spaces.box.Box'>
+print("Sample Observation ", env.observation_space.sample())  # [-2.4296045  -0.05641006 -8.371265   -8.018182    4.31707    -9.034657  0.5735951   0.30920067]
+
+"""
+Action Space A
+
+A0: none
+A1: left engine
+A2: main engine
+A3: right engine
+"""
+print("\n_____ACTION SPACE____")
+print("Action Space Shape", env.action_space.n)  # 4
+print("Action Space Sample", env.action_space.sample())
